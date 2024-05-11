@@ -4,6 +4,8 @@ function Timer() {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [intervals, setIntervals] = useState([]);
+  const [id, setId] = useState(0);
+  const [badges, setBadges] = useState([]);
 
   useEffect(() => {
     let interval;
@@ -11,6 +13,19 @@ function Timer() {
       interval = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds + 1);
       }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive]);
+
+  useEffect(() => {
+    let interval;
+    if (isActive) {
+      interval = setInterval(() => {
+        setId((i) => i + 1);
+        setBadges((prev) => [...prev, id]);
+      }, 10000);
     } else {
       clearInterval(interval);
     }
@@ -25,6 +40,7 @@ function Timer() {
     setIsActive(false);
     setSeconds(0);
     setIntervals([]);
+    setBadges([]);
   };
 
   const saveInterval = () => {
@@ -48,6 +64,8 @@ function Timer() {
 
     return `${displayHours}:${displayMinutes}:${displaySeconds}`;
   };
+
+  console.log(badges);
 
   return (
     <div className="flex flex-col items-center">
@@ -102,6 +120,16 @@ function Timer() {
               </li>
             ))}
           </ul>
+        </div>
+        <div className="flex flex-col">
+          {badges.map((badge, index) => (
+            <div
+              key={index}
+              className="bg-yellow-300 rounded-full h-8 w-8 p-px m-2 text-center text-orange-500 font-bold border-2 border-orange-500"
+            >
+              {index}
+            </div>
+          ))}
         </div>
       </div>
     </div>
