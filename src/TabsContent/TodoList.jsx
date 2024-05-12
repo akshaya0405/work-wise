@@ -8,7 +8,6 @@ const TodoList = () => {
   const [id, setId] = useState(0);
   const [status, setStatus] = useState(null);
   const [count, setCount] = useState(0);
-  // const [completed, setCompleted] = useState(0);
 
   const addNewItem = () => {
     if (newItem === "") {
@@ -41,6 +40,9 @@ const TodoList = () => {
       return currentTodos.filter((todo) => todo.id !== id);
     });
   }
+
+  const completedTodos = todos.filter((todo) => todo.status === true);
+  const completed = completedTodos.length;
 
   return (
     <div className=" flex flex-col  items-center m-8">
@@ -95,14 +97,16 @@ const TodoList = () => {
           ))}
         </ul>
       </div>
-      <div className="font-extrabold text-white fixed bottom-8">
-        Total Tasks:
-        <span className="text-red-400 font-bold text-[30px] p-2 -mt-4 inline-block">
-          {count}
-        </span>
+      <div className=" fixed bottom-8 flex items-end gap-1">
+        <div className="text-red-400 font-bold text-[40px]  inline-blocks">
+          {completed}
+        </div>
+        <div className=" text-gray-300 mb-3 ">/</div>
+        <div className="text-gray-300 inline-block mb-3">{count}</div>
       </div>
-
-      {/* <div>Tasks Completed:{completed}</div> */}
+      <div className="w-[288px] rounded-lg bg-gray-300 h-[1.1rem] fixed bottom-4 ">
+        <div className={`rounded-lg bg-orange-300 h-3 mt-0.5 mx-0.5 w-0`}></div>
+      </div>
     </div>
   );
 };
